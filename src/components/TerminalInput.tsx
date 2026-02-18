@@ -66,9 +66,10 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ onComplete, initia
             setStep(fields.length);
 
             // alert("PDF Procesado. Datos cargados."); // Removed as requested
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("Error al leer el PDF.");
+            const msg = err instanceof Error ? err.message : String(err);
+            alert(`Error al leer el PDF: ${msg}`);
         } finally {
             setIsParsing(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -97,7 +98,7 @@ export const TerminalInput: React.FC<TerminalInputProps> = ({ onComplete, initia
         const itemStr = newItem.itemStr || nextItemNum.toString();
 
         const item: GuideItem = {
-            id: crypto.randomUUID(),
+            id: Math.random().toString(36).substring(2) + Date.now().toString(36),
             itemStr: itemStr,
             cantidad: newItem.cantidad || '',
             descripcion: newItem.descripcion || '',

@@ -2,8 +2,10 @@ import { pdfjs } from 'react-pdf';
 import type { GuideData, GuideItem } from '../types';
 
 // Initialize worker
+// Use local worker file copied to public folder
+// Ensure absolute path for Electron environment
 if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-    pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+    pdfjs.GlobalWorkerOptions.workerSrc = `${window.location.origin}/pdf.worker.min.mjs`;
 }
 
 interface TextItem {
@@ -250,7 +252,7 @@ export const parseGuidePdf = async (file: File): Promise<Partial<GuideData>> => 
                     }
 
                     currentItem = {
-                        id: crypto.randomUUID(),
+                        id: Math.random().toString(36).substring(2) + Date.now().toString(36),
                         itemStr: currentItemIndex.toString(),
                         cantidad: item.str,
                         descripcion: '',
@@ -318,8 +320,9 @@ export const parseGuidePdf = async (file: File): Promise<Partial<GuideData>> => 
             })),
         };
 
-    } catch (err) {
+    } catch (err: any) {
         console.error("PDF Parse Error:", err);
-        throw new Error("No se pudo leer el PDF.");
+        const msg = err instanceof Error ? err.message : String(err);
+        throw new Error(`Detalle del Error: ${msg}`);
     }
 };

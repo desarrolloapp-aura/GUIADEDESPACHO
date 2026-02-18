@@ -3,11 +3,35 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "electron/main.bundle.cjs",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
+    "build:electron": "vite build && npx esbuild electron/main.cjs --bundle --platform=node --target=node18 --outfile=electron/main.bundle.cjs --external:electron",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron:dev": "vite build && electron .",
+    "dist": "npm run build:electron && electron-builder"
+  },
+  "build": {
+    "appId": "com.aura.impresora",
+    "productName": "Impresora Guia Despacho",
+    "directories": {
+      "output": "release"
+    },
+    "asar": false,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -16,7 +40,10 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-pdf": "^10.3.0",
-    "react-to-print": "^3.2.0"
+    "react-to-print": "^3.2.0",
+    "express": "^4.21.2",
+    "get-port": "^7.1.0",
+    "ip": "^2.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -26,6 +53,8 @@
     "@vitejs/plugin-basic-ssl": "^2.1.4",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.24",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

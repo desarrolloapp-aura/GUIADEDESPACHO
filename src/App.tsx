@@ -13,7 +13,7 @@ function App() {
 
   // Calibration State (mm) - Persisted in localStorage
   const [xOffset, setXOffset] = useState(() => parseFloat(localStorage.getItem('printer_x') || '0'));
-  const [yOffset, setYOffset] = useState(() => parseFloat(localStorage.getItem('printer_y') || '0'));
+  const [yOffset, setYOffset] = useState(() => parseFloat(localStorage.getItem('printer_y') || '1')); // Screenshot: Y=1
 
   // Field Offsets (Individual)
   const [fieldOffsets, setFieldOffsets] = useState<Record<string, { x: number, y: number }>>(() => {
@@ -28,14 +28,14 @@ function App() {
       direccionDestino: { x: 0, y: -0.5, scale: 1 },
       tipoVehiculo: { x: 0, y: -0.5, scale: 1 },
       conductor: { x: 0, y: -0.5, scale: 1 },
-      nContrato: { x: 0, y: -0.7, scale: 1 },
+      nContrato: { x: 0, y: -0.7, scale: 1 }, // Screenshot: -0.7
       fecha: { x: 0, y: -0.5, scale: 1 },
       patente: { x: 0, y: -0.5, scale: 1 },
       run: { x: 0, y: -0.5, scale: 1 },
-      numero: { x: 147, y: -28.5, scale: 1 },
-      itemsTable: { x: 3, y: -9.7, scale: 1 },
-      total: { x: 5, y: 240, scale: 1 }, // Estimated position
-      coordinador: { x: 20.2, y: -15.4, scale: 1 }
+      numero: { x: 147, y: -28.5, scale: 1 }, // Screenshot: 147, -28.5
+      itemsTable: { x: 3, y: -10, scale: 1 }, // Screenshot: 3, -10
+      total: { x: 25, y: -25.4, scale: 1 }, // Screenshot: 25, -25.4
+      coordinador: { x: 23, y: -20, scale: 1 } // Screenshot: 23, -20
     };
   });
 
