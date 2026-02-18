@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@layer utilities {
+    @media print {
+        @page {
+            size: letter;
+            /* Carta */
+            margin: 0;
+            /* Critical: Remove default browser margins */
+        }
+
+        body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+}
