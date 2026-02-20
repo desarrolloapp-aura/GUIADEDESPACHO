@@ -36,8 +36,16 @@ export const PrintTemplate = forwardRef<HTMLDivElement, PrintTemplateProps>(
             };
         };
 
-        // Font style for Dot Matrix: Monospace, Bold, Black
-        const textStyle = "font-mono font-bold text-black uppercase tracking-wider";
+        // Font style: Forced Pure Black, Maximum Weight, and Sharp Rendering
+        const textStyle = "font-mono font-black text-black uppercase tracking-wider";
+
+        // Inline styles to override any browser/driver "economy" or "gray" defaults
+        const forcedBlackStyle: React.CSSProperties = {
+            color: '#000000',
+            fontWeight: 900,
+            WebkitTextStroke: '0.2px black', // Subtle stroke to thicken for low-ink printers
+            textRendering: 'optimizeLegibility',
+        };
 
         return (
             <div
@@ -178,7 +186,7 @@ export const PrintTemplate = forwardRef<HTMLDivElement, PrintTemplateProps>(
                             {/* 4. Folio - Starts at 175mm, Width 50mm */}
                             {/* Current X = 46+110 = 156mm. Target 175. Gap = 19mm. */}
                             <div style={{ width: '19mm', flexShrink: 0 }}></div>
-                            <div className={textStyle} style={{ width: '50mm', wordWrap: 'break-word' }}>
+                            <div className={textStyle} style={{ ...forcedBlackStyle, width: '50mm', wordWrap: 'break-word' }}>
                                 {item.codigo.toUpperCase()}
                             </div>
                         </div>
@@ -214,7 +222,7 @@ export const PrintTemplate = forwardRef<HTMLDivElement, PrintTemplateProps>(
                     // The user said "FIJATE EN EN LA IMAGEN AHI DEBE IR EL TOAL EN TATAL".
                     // It looks like a fixed footer in the table.
                     return (
-                        <div className={textStyle} style={style(240, 5, 'total')}>
+                        <div className={textStyle} style={{ ...forcedBlackStyle, ...style(240, 5, 'total') }}>
                             {totalQty}
                         </div>
                     );
